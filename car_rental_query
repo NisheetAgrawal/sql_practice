@@ -1,0 +1,30 @@
+use lco_car_rentals;
+
+INSERT INTO `customer` (`first_name`, `last_name`, `dob`, `driver_license_number`, `email`) 
+VALUES ("Nancy", "Perry", "1988-05-16", "K59042656E", "nancy@gmail.com");
+
+select * from customer;
+select * from rental;
+select * from fuel_option
+select * from location
+select * from vehicle
+select * from vehicle_type
+desc rental
+desc location
+INSERT INTO `rental`(`start_date`,`end_date`,`customer_id`,`vehicle_type_id`,`fuel_option_id`,`pickup_location_id`,`drop_off_location_id`)
+values("2020-08-25","2020-08-30",(SELECT customer.id FROM customer WHERE customer.driver_license_number="K59042656E"), (select vehicle_type.id from vehicle_type where vehicle_type.name='economy suv'),
+(select fuel_option.id from fuel_option where fuel_option.name='market'),(select location.id from location where location.zipcode = 60638),(select location.id from location where location.zipcode = 90045))
+'
+Question3
+The customer with the driving license W045654959 changed his/her drop off location to
+1001 Henderson St, Fort Worth, TX, zip-76102 and wants to extend the rental upto 4 moredays. Update the record.' 
+
+select* from rental inner join customer on customer.id=rental.id
+UPDATE `rental` INNER JOIN customer ON customer.id = rental.customer_id SET drop_off_location_id = (SELECT location.id FROM location WHERE location.zipcode=76102) , end_date=(SELECT end_date + INTERVAL 4 DAY) WHERE customer.driver_license_number="W045654959";
+
+'
+question 4
+Fetch all rental details with their equipment type'
+
+select * from rental left join rental_has_equipment_type on equipment_type.id=rental.id;
+
