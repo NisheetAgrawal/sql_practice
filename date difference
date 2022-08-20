@@ -1,0 +1,12 @@
+delimiter &&
+create function final(D1 date,D2 date)
+returns int
+deterministic
+begin
+declare C int;
+set C= datediff(d1,d2);
+return C;
+end &&
+
+select final('2000-12-2','2010-2-10')
+
