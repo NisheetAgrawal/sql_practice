@@ -1,0 +1,50 @@
+use ineuron_fsda
+select * from bank_details
+select avg(balance) from bank_details
+select * from bank_details where balance=(select min(balance) from bank_details)
+select * from bank_details order by balance limit 1
+select *,max(balance) from bank_details
+select job,loan from bank_details where loan='yes'
+select job,avg(balance) from  bank_details where job='admin.'
+select job,avg(balance) from  bank_details where job='retired'
+select job,age from bank_details where job='unknown' and age<45
+select education, job from bank_details where education='primary' and job='retired'
+select * from bank_details where balance<0
+select housing,balance from bank_details where housing='no'
+
+DELIMITER &&
+CREATE PROCEDURE NEESHE()
+BEGIN
+	SELECT * FROM BANK_DETAILS;
+END&&
+
+CALL NEESHE()
+
+
+
+DELIMITER &&
+CREATE PROCEDURE KISS()
+BEGIN
+	SELECT *,MIN(BALANCE) FROM BANK_DETAILS;
+END&&
+
+CALL KISS()
+
+DELIMITER &&
+CREATE PROCEDURE KRIS(IN V1 VARCHAR(30), IN V2 VARCHAR(40))
+BEGIN
+	SELECT * FROM BANK_DETAILS WHERE EDUCATION=V1 AND JOB=V2;
+END&&
+
+CALL KRIS('SECONDARY','ADMIN.')
+
+
+
+
+DELIMITER &&
+CREATE PROCEDURE CHAJU(IN V1 INT, IN V2 INT)
+BEGIN
+	SELECT * FROM BANK_DETAILS WHERE BALANCE = V1 AND PDAYS = V2;
+END&&
+	
+CALL CHAJU(0,-1)
