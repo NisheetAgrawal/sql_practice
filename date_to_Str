@@ -1,0 +1,108 @@
+use sales
+drop table sales_data
+CREATE TABLE sales (
+	order_id VARCHAR(15) NOT NULL, 
+	order_date VARCHAR(30) NOT NULL, 
+	ship_date VARCHAR(30) NOT NULL, 
+	ship_mode VARCHAR(14) NOT NULL, 
+	customer_name VARCHAR(22) NOT NULL, 
+	segment VARCHAR(11) NOT NULL, 
+	state VARCHAR(36) NOT NULL, 
+	country VARCHAR(32) NOT NULL, 
+	market VARCHAR(6) NOT NULL, 
+	region VARCHAR(14) NOT NULL, 
+	product_id VARCHAR(16) NOT NULL, 
+	category VARCHAR(15) NOT NULL, 
+	sub_category VARCHAR(11) NOT NULL, 
+	product_name VARCHAR(127) NOT NULL, 
+	sales DECIMAL(38, 0) NOT NULL, 
+	quantity DECIMAL(38, 4) NOT NULL, 
+	discount DECIMAL(38, 3) NOT NULL, 
+	profit DECIMAL(38, 5) NOT NULL, 
+	shipping_cost DECIMAL(38, 2) NOT NULL, 
+	order_priority VARCHAR(8) NOT NULL, 
+	`year` DECIMAL(38, 0) NOT NULL
+);
+SET SESSION sql_mode = ''
+select * from sales
+select order_date from sales
+select oder_date 
+select str_to_date(order_date,'%m/%d/%Y') from sales
+
+load data infile 
+'E:/sales_data_final.csv'
+into table sales
+fields terminated by ','
+enclosed by '"'
+lines terminated by '\n'
+ignore 1 rows 
+
+SET SQL_SAFE_UPDATES = 0;
+
+DELIMITER &&
+create procedure NISH()
+BEGIN
+	SELECT * FROM SALES;
+END &&
+alter table sales
+add column order_date_new date after order_date
+
+alter table sales
+add column ship_date_new date after ship_date
+
+FORMAT(CAST(order_date AS DATETIME), N'yyyy-MM-dd')
+CALL NISH()
+select str_to_date( order_date,'%d-%m-%Y') from sales
+UPDATE SALES
+if order_date_new=
+SET  order_date_new = STR_TO_DATE( order_date,'%d/%m/%Y')
+SET  order_date_new = STR_TO_DATE( order_date,'%d-%m-%Y')
+
+update SALES
+SET ship_date_new = STR_TO_DATE(ship_date,'%d-%m-%Y')
+select * from sales
+
+select date_sub(now(), interval 1 week)
+
+alter table sales 
+add column flag date
+
+update sales
+set flag = now()
+
+call nish()
+
+modify sales
+set flag after order_date
+
+
+alter table sales
+modify column day_new int
+alter table sales
+modify column month_new int
+alter table sales
+modify column year_new int
+
+update sales 
+set day_new= day(order_date_new) 
+
+update sales 
+set month_new= month(order_date_new)
+
+update sales 
+set year_new= year(order_date_new)
+
+call nish()
+select discount,if(discount>0, 'yes','no') as discountmilgyawow
+
+alter table sales
+add column discount_flag varchar(15) after discount
+
+update sales
+set discount_flag= if(discount > 0 ,'yes','no')
+
+select discount_flag,count(discount_flag) from sales group by discount_flag
+
+
+
+
