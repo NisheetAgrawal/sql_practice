@@ -1,0 +1,111 @@
+create database ineuron
+use ineuron
+
+create table course1(
+course_id int,
+course_desc varchar(50),
+course_mentor varchar(60),
+course_price int,
+course_discount int,
+create_date date )
+
+create table course_update(
+course_metor_update varchar(50),
+course_price_update int,
+course_discount_update int)
+
+delimiter //
+create trigger course_before_insert
+before insert
+on course1 for each row
+Begin
+	set new.create_date = sysdate();
+end; //
+insert into course1 (course_id,course_desc,course_mentor,course_price,course_discount)value(101,"FSDA","sudhanshu",4000,10)
+
+select * from course1;
+select user()
+
+create table course2(
+course_id int,
+course_desc varchar(50),
+course_mentor varchar(60),
+course_price int,
+course_discount int,
+create_date date,
+user_info varchar(50))
+
+select * from course2;
+
+
+delimiter //
+create trigger course_before_insert2
+before insert
+on course2 for each row
+Begin
+declare user_val varchar(50);
+	set new.create_date = sysdate();
+    select user() into  user_val;
+    set new.user_info = user_val;
+end; //
+
+insert into course2 (course_id,course_desc,course_mentor,course_price,course_discount)value(101,"FSDA","sudhanshu",4000,10);
+
+create table test1(
+my_name varchar(50),
+enroll_date date,
+roll_number int)
+
+create table test2(
+my_name varchar(50),
+enroll_date date,
+roll_number int)
+
+create table test3(
+my_name varchar(50),
+enroll_date date,
+roll_number int)
+
+select * from test1
+
+delimiter // 
+create trigger update_both_test
+before insert
+on test1 for each row
+begin
+	insert into test2 values("xyz",sysdate(),123);
+    insert into test3 values("xyzp",sysdate(),456);
+end //
+
+	insert into test1 values("nish",sysdate(),123);
+
+select * from test1   
+select * from test2 
+select * from test3
+
+delimiter //
+create trigger update_others12
+after insert
+on test1 for each row
+begin
+	update test2 set my_name ='abc' where my_name ='xyz';
+    delete from test3 where my_name = 'xyzp';
+end //
+
+insert into test1 values("nishu",sysdate(),1234);
+SET SQL_SAFE_UPDATES = 0;
+
+Delimiter //
+create trigger after_delete_tables
+after delete
+on test1 for each row
+begin
+	insert into test3 values("after delete",sysdate(),12345);
+end; //
+
+delete from test1 where my_name='nish';
+
+
+
+
+
